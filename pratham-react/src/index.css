@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    box-sizing: border-box;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #000;
+    color: #f0ede8;
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+  ::selection { background: rgba(201,168,76,0.25); color: #f0ede8; }
+  a { text-decoration: none; color: inherit; }
+  img { display: block; max-width: 100%; }
+}
+
+/* Hide custom cursor elements — using normal system cursor */
+.cursor-dot, .cursor-ring { display: none !important; }
+
+/* ── Grain overlay ─────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.028;
+  animation: grainShift 0.8s steps(1) infinite;
+}
+@keyframes grainShift {
+  0%   { background-position: 0 0; }
+  20%  { background-position: -60px 30px; }
+  40%  { background-position: 40px -20px; }
+  60%  { background-position: -20px 60px; }
+  80%  { background-position: 70px 10px; }
+  100% { background-position: 0 0; }
+}
+
+/* ── Scrollbar ────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #06060a; }
+::-webkit-scrollbar-thumb { background: #c9a84c33; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #c9a84c66; }
+
+/* ── Utility keyframes ────────────────────────────────── */
+@keyframes fadeUp     { from { opacity:0; transform:translateY(30px); } to { opacity:1; transform:none; } }
+@keyframes fadeIn     { from { opacity:0; } to { opacity:1; } }
+@keyframes slideUp    { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:none; } }
+@keyframes lineGrow   { from { width:0; } to { width:100%; } }
+@keyframes pulse      { 0%,100%{opacity:0.2;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.06)} }
+@keyframes blink      { 0%,100%{border-color:#c9a84c} 50%{border-color:transparent} }
+@keyframes breathe    { 0%,100%{opacity:.25} 50%{opacity:.9} }
+@keyframes marquee    { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+@keyframes spin       { to{transform:rotate(360deg)} }
+
+/* ── Typewriter cursor ──────────────────────────────── */
+.tw-cursor { border-right: 1.5px solid #c9a84c; animation: blink 0.75s step-end infinite; }
+
+/* ── Hover link underline ──────────────────────────── */
+.link-underline { position: relative; }
+.link-underline::after { content:''; position:absolute; bottom:-2px; left:0; width:0; height:1px; background:#c9a84c; transition:width 0.4s cubic-bezier(0.25,0.46,0.45,0.94); }
+.link-underline:hover::after { width:100%; }
+
+/* ── Responsive grids ──────────────────────────────── */
+@media (max-width: 1060px) { .music-grid { grid-template-columns: repeat(2,1fr) !important; } }
+@media (max-width: 640px)  { .music-grid { grid-template-columns: 1fr !important; } }
+@media (max-width: 900px)  { .stats-grid { grid-template-columns: repeat(2,1fr) !important; } .press-grid { grid-template-columns: 1fr !important; } }
+@media (max-width: 768px)  { .section-pad { padding: 5rem 1.6rem 6rem !important; } .footer-pad { padding: 2rem 1.6rem !important; } .footer-inner-flex { flex-direction: column !important; align-items: center !important; text-align: center !important; } }
+
+/* ── Smooth image loading ───────────────────────────── */
+img { opacity: 0; transition: opacity 0.5s ease; }
+img.loaded { opacity: 1; }
+
+/* ── Focus styles ───────────────────────────────────── */
+:focus-visible { outline: 1.5px solid #c9a84c; outline-offset: 3px; border-radius: 4px; }
+
+/* ── Reduced motion ─────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  body::before { display: none; }
+}
