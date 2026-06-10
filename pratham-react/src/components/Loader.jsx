@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-const DURATION = 3600
+const DURATION = 1800
 
 export default function Loader({ onDone }) {
   const canvasRef = useRef(null)
